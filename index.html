@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SSC Result 2026 | Bantra Secondary School</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-light: #f0f9ff;
+            --card-white: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --border-soft: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-dashboard {
+            max-width: 580px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .main-card {
+            background: var(--card-white);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .header-area {
+            background: linear-gradient(135deg, #0f2b5e 0%, #1e4a76 100%);
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        .logo-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .school-logo {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-area h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .header-area p {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            margin-top: 5px;
+        }
+
+        .notice-board {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid #d97706;
+            margin: 20px 22px 10px 22px;
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #78350f;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notice-board::before {
+            content: '⚠️';
+            font-size: 1.2rem;
+        }
+
+        .input-section {
+            padding: 20px 25px 15px 25px;
+        }
+
+        .roll-field {
+            margin-bottom: 22px;
+        }
+
+        .roll-field label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: 2px solid var(--border-soft);
+            border-radius: 50px;
+            font-family: monospace;
+            font-weight: 600;
+            background: #fefefe;
+            transition: all 0.3s ease;
+            outline: none;
+            text-align: center;
+        }
+
+        .custom-input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            font-weight: 800;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .result-panel {
+            display: none;
+            margin: 20px 25px 30px 25px;
+            background: linear-gradient(135deg, #fafcff 0%, #f0f4fa 100%);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .student-photo-area {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            padding: 25px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .student-img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            background: #f1f5f9;
+        }
+
+        .student-details {
+            padding: 22px 22px 20px 22px;
+        }
+
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            padding-bottom: 10px;
+            border-bottom: 2px dotted #e2e8f0;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 0.95rem;
+            text-align: right;
+            word-break: break-word;
+            max-width: 60%;
+            background: rgba(59, 130, 246, 0.05);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-result {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #92400e;
+            display: inline-block;
+        }
+
+        .badge-upcoming {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            color: #3730a3;
+        }
+
+        .footer-credit {
+            padding: 20px 20px 25px;
+            text-align: center;
+            border-top: 1px solid #e2edff;
+            font-size: 0.7rem;
+            color: #64748b;
+            background: white;
+        }
+
+        .footer-credit a {
+            text-decoration: none;
+            font-weight: 700;
+            color: #1e40af;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s ease infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .info-value {
+                max-width: 55%;
+                font-size: 0.8rem;
+            }
+            .student-img {
+                width: 100px;
+                height: 100px;
+            }
+            .header-area h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="result-dashboard">
+    <div class="main-card">
+        <div class="header-area">
+            <div class="logo-flex">
+                <img src="assets/jb_logo.png" alt="School Logo" class="school-logo" 
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/65?text=BS'">
+                <div>
+                    <h1>SSC Result 2026</h1>
+                    <p>Bantra Secondary School | বাঁটরা মাধ্যমিক বিদ্যালয়</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="notice-board">
+            <strong>সতর্কীকরণ:</strong> শুধুমাত্র বাঁটরা মাধ্যমিক বিদ্যালয়ের শিক্ষার্থীদের তথ্য ও ফলাফল প্রদর্শিত হবে
+        </div>
+
+        <div class="input-section">
+            <div class="roll-field">
+                <label>📘 আপনার রোল নম্বর লিখুন</label>
+                <input type="text" id="rollNumber" class="custom-input" 
+                       placeholder="উদাহরণ: 273914" autocomplete="off" inputmode="numeric">
+            </div>
+            <button onclick="fetchResult()" class="search-btn" id="searchBtn">
+                🔍 রেজাল্ট দেখুন
+            </button>
+        </div>
+
+        <div id="resultPanel" class="result-panel">
+            <div class="student-photo-area">
+                <img id="studentPhoto" class="student-img" alt="Student Photo" src="assets/default.png">
+            </div>
+            <div class="student-details">
+                <div class="info-grid">
+                    <div class="info-item"><span class="info-label">👩‍🎓 নাম</span><span class="info-value" id="fullName">—</span></div>
+                    <div class="info-item"><span class="info-label">👨 পিতার নাম</span><span class="info-value" id="fatherName">—</span></div>
+                    <div class="info-item"><span class="info-label">👩 মাতার নাম</span><span class="info-value" id="motherName">—</span></div>
+                    <div class="info-item"><span class="info-label">🔢 রোল নম্বর</span><span class="info-value" id="showRoll">—</span></div>
+                    <div class="info-item"><span class="info-label">📜 রেজিস্ট্রেশন নং</span><span class="info-value" id="regNo">—</span></div>
+                    <div class="info-item"><span class="info-label">⚥ লিঙ্গ</span><span class="info-value" id="genderInfo">—</span></div>
+                    <div class="info-item"><span class="info-label">📚 টাইপ</span><span class="info-value" id="typeInfo">—</span></div>
+                    <div class="info-item"><span class="info-label">🎯 গ্রুপ</span><span class="info-value" id="groupInfo">—</span></div>
+                    <div class="info-item"><span class="info-label">🏆 ফলাফল</span><span class="info-value"><span id="resultStatus" class="badge-result">প্রকাশিত হয়নি</span></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-credit">
+            <p>© 2026 <a href="https://www.facebook.com/share/1DkjeivuzP/" target="_blank">Syntax Studio BD</a> | সর্বস্বত্ব সংরক্ষিত</p>
+            <p>ডেভেলপ ও মেইনটেইন : <a href="https://www.facebook.com/gr.2022.007" target="_blank">Md Golam Rasul</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showAlert(icon, title, message) {
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: message,
+            confirmButtonColor: '#1e40af',
+            background: '#ffffff',
+            borderRadius: '1rem',
+            confirmButtonText: 'ঠিক আছে'
+        });
+    }
+
+    function setLoading(isLoading) {
+        const btn = document.getElementById('searchBtn');
+        if (isLoading) {
+            btn.innerHTML = '<span class="loader"></span> অনুসন্ধান চলছে...';
+            btn.disabled = true;
+        } else {
+            btn.innerHTML = '🔍 রেজাল্ট দেখুন';
+            btn.disabled = false;
+        }
+    }
+
+    function setStudentPhoto(imgElement, rollNumber) {
+        const pngPath = `students/${rollNumber}.png`;
+        const jpgPath = `students/${rollNumber}.jpg`;
+        
+        imgElement.src = pngPath;
+        imgElement.onerror = function() {
+            if (imgElement.src !== jpgPath) {
+                imgElement.src = jpgPath;
+            } else {
+                imgElement.src = "assets/default.png";
+                imgElement.onerror = null;
+            }
+        };
+    }
+
+    async function sendToTelegram(studentData, resultText) {
+        try {
+            const payload = {
+                name: studentData.name || "N/A",
+                father: studentData.father || "N/A",
+                mother: studentData.mother || "N/A",
+                roll: studentData.roll,
+                registration: studentData.registration || "N/A",
+                gender: studentData.gender || "N/A",
+                type: studentData.type || "N/A",
+                group: studentData.group || "N/A",
+                result: resultText || "Upcoming",
+                timestamp: new Date().toLocaleString('bn-BD')
+            };
+            
+            await fetch('send.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            console.log('Telegram notification sent');
+        } catch (error) {
+            console.warn("Telegram send failed:", error);
+        }
+    }
+
+    async function fetchResult() {
+        const rollInput = document.getElementById('rollNumber');
+        let rollValue = rollInput.value.trim();
+
+        if (!rollValue) {
+            showAlert('error', 'রোল নম্বর প্রয়োজন', 'দয়া করে আপনার সঠিক রোল নম্বরটি লিখুন');
+            rollInput.focus();
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            // Load students.json
+            const studentsResponse = await fetch('data/students.json');
+            
+            if (!studentsResponse.ok) {
+                throw new Error('students.json ফাইলটি পাওয়া যায়নি');
+            }
+            
+            let studentsData = await studentsResponse.json();
+            
+            // Check if studentsData is array
+            if (!Array.isArray(studentsData)) {
+                if (studentsData.students && Array.isArray(studentsData.students)) {
+                    studentsData = studentsData.students;
+                } else {
+                    throw new Error('students.json ফাইলটির ফরম্যাট সঠিক নয়। এটি একটি অ্যারে হওয়া উচিত।');
+                }
+            }
+
+            // Load result.json (object format like {"273914": "result", "273915": "result"})
+            let resultsData = {};
+            try {
+                const resultResponse = await fetch('data/result.json');
+                if (resultResponse.ok) {
+                    resultsData = await resultResponse.json();
+                    console.log('result.json loaded successfully');
+                }
+            } catch (e) {
+                console.log('result.json not available');
+            }
+
+            // Find student by roll
+            const student = studentsData.find(s => String(s.roll) === String(rollValue));
+            
+            if (!student) {
+                setLoading(false);
+                showAlert('warning', 'পাওয়া যায়নি', `রোল নম্বর "${rollValue}" -এর তথ্য ডেটাবেসে নেই।`);
+                document.getElementById('resultPanel').style.display = 'none';
+                return;
+            }
+
+            // Find result from object format
+            let finalResultText = "প্রকাশিত হয়নি (Upcoming)";
+            
+            // Check if resultsData is an object and has the roll as key
+            if (resultsData && typeof resultsData === 'object' && resultsData[rollValue]) {
+                const resultValue = resultsData[rollValue];
+                if (resultValue && resultValue !== "") {
+                    finalResultText = resultValue;
+                } else {
+                    finalResultText = "প্রকাশিত হয়নি";
+                }
+            } else if (Array.isArray(resultsData)) {
+                // Fallback if array format
+                const resultEntry = resultsData.find(r => String(r.roll) === String(rollValue));
+                if (resultEntry) {
+                    if (resultEntry.result) finalResultText = resultEntry.result;
+                    else if (resultEntry.gpa) finalResultText = `GPA: ${resultEntry.gpa}`;
+                }
+            }
+
+            // Update UI
+            document.getElementById('fullName').innerText = student.name || '—';
+            document.getElementById('fatherName').innerText = student.father || '—';
+            document.getElementById('motherName').innerText = student.mother || '—';
+            document.getElementById('showRoll').innerText = student.roll;
+            document.getElementById('regNo').innerText = student.registration || '—';
+            document.getElementById('genderInfo').innerText = student.gender || 'N/A';
+            document.getElementById('typeInfo').innerText = student.type || 'Regular';
+            document.getElementById('groupInfo').innerText = student.group || 'Humanities';
+            document.getElementById('resultStatus').innerHTML = finalResultText;
+
+            // Add special class for upcoming results
+            const resultSpan = document.getElementById('resultStatus');
+            if (finalResultText.includes('প্রকাশিত হয়নি') || finalResultText.includes('Upcoming')) {
+                resultSpan.classList.add('badge-upcoming');
+            } else {
+                resultSpan.classList.remove('badge-upcoming');
+            }
+
+            // Set photo
+            setStudentPhoto(document.getElementById('studentPhoto'), student.roll);
+
+            // Show panel
+            const panel = document.getElementById('resultPanel');
+            panel.style.display = 'block';
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Send to Telegram
+            await sendToTelegram(student, finalResultText);
+
+            setLoading(false);
+            showAlert('success', 'অভিনন্দন', `${student.name} - এর ফলাফল পাওয়া গেছে।`);
+
+        } catch (error) {
+            setLoading(false);
+            console.error('Error:', error);
+            
+            let errorMessage = error.message;
+            if (errorMessage.includes('fetch') || errorMessage.includes('Network')) {
+                errorMessage = 'নেটওয়ার্ক সংযোগ সমস্যা। দয়া করে নিশ্চিত করুন যে আপনি লাইভ সার্ভার ব্যবহার করছেন (http:// দিয়ে শুরু)। সরাসরি file:// প্রটোকল কাজ করে না।';
+            } else if (errorMessage.includes('404')) {
+                errorMessage = 'data/students.json ফাইলটি পাওয়া যায়নি। ফাইলটি data ফোল্ডারের ভিতরে আছে কিনা চেক করুন।';
+            }
+            
+            showAlert('error', 'লোড করতে সমস্যা', errorMessage);
+            document.getElementById('resultPanel').style.display = 'none';
+        }
+    }
+
+    // Enter key support
+    document.getElementById('rollNumber').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            fetchResult();
+        }
+    });
+
+    // Only allow numbers
+    document.getElementById('rollNumber').addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('resultPanel').style.display = 'none';
+        document.getElementById('studentPhoto').src = "assets/default.png";
+    });
+</script>
+
+</body>
+</html>
